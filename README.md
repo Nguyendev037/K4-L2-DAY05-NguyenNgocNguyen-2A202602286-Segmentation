@@ -16,11 +16,11 @@ Bạn sẽ tự tạo mask cho ảnh trong repo, kiểm lại theo quy tắc, s�
 
 ## Ba loại segmentation trong cùng bài
 
-| Loại | Câu hỏi cần trả lời | Task | Ví dụ quyết định |
-| --- | --- | --- | --- |
-| **Semantic** | Pixel nhìn thấy thuộc **lớp vùng nào**? | Easy; `cp3_thin`, `cp4_curb`, `cp6_coverage` | Road và sidewalk là hai lớp dù màu gần giống. |
-| **Instance** | Pixel nhìn thấy thuộc **vật nào**? | Medium; `cp1_holes`, `cp2_slice`, `cp5_occlusion` | Hai xe cùng class sát nhau vẫn là hai object/mask. |
-| **Panoptic** | Vùng thuộc lớp nào, và vật đếm được là **instance nào**? | Hard | Vẽ stuff như road/sky cùng từng thing như car #1, car #2. |
+| Loại         | Câu hỏi cần trả lời                                      | Task                                              | Ví dụ quyết định                                          |
+| ------------ | -------------------------------------------------------- | ------------------------------------------------- | --------------------------------------------------------- |
+| **Semantic** | Pixel nhìn thấy thuộc **lớp vùng nào**?                  | Easy; `cp3_thin`, `cp4_curb`, `cp6_coverage`      | Road và sidewalk là hai lớp dù màu gần giống.             |
+| **Instance** | Pixel nhìn thấy thuộc **vật nào**?                       | Medium; `cp1_holes`, `cp2_slice`, `cp5_occlusion` | Hai xe cùng class sát nhau vẫn là hai object/mask.        |
+| **Panoptic** | Vùng thuộc lớp nào, và vật đếm được là **instance nào**? | Hard                                              | Vẽ stuff như road/sky cùng từng thing như car #1, car #2. |
 
 **Mask** là vùng pixel bạn gán cho một lớp/vật; một bounding box không thay mask. **Stuff** là vùng không đếm từng cá thể như road, sky; **thing** là vật đếm được như car, person. Chỉ vẽ phần nhìn thấy, không tự đoán biên sau vật che. Một vật bị che thành hai mảng nhìn thấy rời nhau vẫn có thể là **một instance** theo quy tắc task. Xem [phiếu quy tắc](guideline-mini-sheet.md) để kiểm trước export.
 
@@ -30,18 +30,18 @@ Bạn sẽ tự tạo mask cho ảnh trong repo, kiểm lại theo quy tắc, s�
 
 Các file `cvat-labels.json` đã được tạo sẵn, nên học viên không cần chạy code. Nếu coach cần tạo lại một file sau khi thay đổi schema, dùng script từ starter: `python3 scripts/convert_label_cvat.py -i <đường_dẫn>/classes.json -o <đường_dẫn>/cvat-labels.json`.
 
-| Task | Ảnh | Điều cần thể hiện | Export CVAT | Tối đa |
-| --- | ---: | --- | --- | ---: |
-| [`easy_semantic`](data/tiers/easy_semantic/) | 3 | Road, sidewalk, building, vegetation, sky | Segmentation mask 1.1 | 20 |
-| [`medium_instance`](data/tiers/medium_instance/) | 3 | Mỗi person/bicycle/car/motorcycle/bus/truck là object riêng | COCO 1.0 | 32 |
-| [`hard_panoptic`](data/tiers/hard_panoptic/) | 2 | Stuff và từng thing theo 12 class của task | COCO 1.0 | 30 |
-| [`cp1_holes`](data/checkpoints/cp1_holes/) | 1 | Kính/khe nằm trong mask vật, không khoét tùy tiện | COCO 1.0 | 3 |
-| [`cp2_slice`](data/checkpoints/cp2_slice/) | 1 | Hai xe sát nhau là hai instance | COCO 1.0 | 3 |
-| [`cp5_occlusion`](data/checkpoints/cp5_occlusion/) | 1 | Vật bị che vẫn một instance; đếm đúng | COCO 1.0 | 3 |
-| [`cp3_thin`](data/checkpoints/cp3_thin/) | 1 | Nét mảnh/cột/biển, phóng to và dùng brush nhỏ | Segmentation mask 1.1 | 3 |
-| [`cp4_curb`](data/checkpoints/cp4_curb/) | 1 | Ranh road–sidewalk theo chức năng/bó vỉa | Segmentation mask 1.1 | 3 |
-| [`cp6_coverage`](data/checkpoints/cp6_coverage/) | 1 | Kiểm vùng thuộc class của task còn bỏ sót | Segmentation mask 1.1 | 3 |
-| **Tổng** | **14** | Ba cấp + sáu checkpoint | | **100** |
+| Task                                               |    Ảnh | Điều cần thể hiện                                           | Export CVAT           |  Tối đa |
+| -------------------------------------------------- | -----: | ----------------------------------------------------------- | --------------------- | ------: |
+| [`easy_semantic`](data/tiers/easy_semantic/)       |      3 | Road, sidewalk, building, vegetation, sky                   | Segmentation mask 1.1 |      20 |
+| [`medium_instance`](data/tiers/medium_instance/)   |      3 | Mỗi person/bicycle/car/motorcycle/bus/truck là object riêng | COCO 1.0              |      32 |
+| [`hard_panoptic`](data/tiers/hard_panoptic/)       |      2 | Stuff và từng thing theo 12 class của task                  | COCO 1.0              |      30 |
+| [`cp1_holes`](data/checkpoints/cp1_holes/)         |      1 | Kính/khe nằm trong mask vật, không khoét tùy tiện           | COCO 1.0              |       3 |
+| [`cp2_slice`](data/checkpoints/cp2_slice/)         |      1 | Hai xe sát nhau là hai instance                             | COCO 1.0              |       3 |
+| [`cp5_occlusion`](data/checkpoints/cp5_occlusion/) |      1 | Vật bị che vẫn một instance; đếm đúng                       | COCO 1.0              |       3 |
+| [`cp3_thin`](data/checkpoints/cp3_thin/)           |      1 | Nét mảnh/cột/biển, phóng to và dùng brush nhỏ               | Segmentation mask 1.1 |       3 |
+| [`cp4_curb`](data/checkpoints/cp4_curb/)           |      1 | Ranh road–sidewalk theo chức năng/bó vỉa                    | Segmentation mask 1.1 |       3 |
+| [`cp6_coverage`](data/checkpoints/cp6_coverage/)   |      1 | Kiểm vùng thuộc class của task còn bỏ sót                   | Segmentation mask 1.1 |       3 |
+| **Tổng**                                           | **14** | Ba cấp + sáu checkpoint                                     |                       | **100** |
 
 Checkpoint có **class list riêng**. Ví dụ `cp3_thin` có `pole`, `traffic sign`, `sky`, `road`; `cp4_curb` chỉ có `road`, `sidewalk`. Đọc `classes.json` trước khi tạo mỗi task, không dùng nhầm class của Easy cho mọi task.
 
@@ -49,17 +49,17 @@ Checkpoint có **class list riêng**. Ví dụ `cp3_thin` có `pole`, `traffic s
 
 Đây là **timebox cho 240 phút thực hành**, để còn giờ Save, tự QC và chuẩn bị bài nộp. Nếu chậm hơn dự kiến, ghi rõ phần đã làm và phần còn thiếu. **Ground truth của Easy, Medium và Hard dự kiến được phát trong 60 phút cuối**, sau phần tự làm; lúc đó có thể dùng script để tìm và sửa lỗi. Hạn đưa link fork lên VLearn là **24 giờ sau buổi lab**; công cụ chấm riêng chạy sau cửa sổ nộp. [Bản lộ trình văn bản](GUIDE.md) có thể mở cạnh CVAT.
 
-| Phút | Việc chính | Bằng chứng giữ lại |
-| ---: | --- | --- |
-| 0–15 | Vào CVAT, đọc quy tắc, tạo Easy với 3 ảnh và đúng 5 class | Task đầu mở được; biết Save/export ở đâu |
-| 15–45 | Easy semantic: tô vùng, kiểm road–sidewalk, Save/export | `easy_semantic.zip` |
-| 45–110 | Medium instance: tự vẽ object đầu rồi tiếp tục từng vật, kiểm thiếu/thừa/gộp/tách | `medium_instance.zip`; một quyết định trong report |
-| 110–120 | Nghỉ | Giữ an toàn các ZIP đã xuất |
-| 120–175 | Hard panoptic: stuff + từng thing trên hai ảnh, QC/export | `hard_panoptic.zip` |
-| 175–185 | Nghỉ; nhận reference ba tier từ phút 180 theo hướng dẫn lớp | Không đưa đáp án lên fork |
-| 185–215 | Sáu checkpoint; người xong sớm chạy scorer ba tier | ZIP trạm đã làm; kết quả tự đánh giá nếu có |
-| 215–235 | Kiểm file, sửa và export lại nếu cần; điền report | `REPORT.md`: lỗi, hành động, ba ca cân nhắc |
-| 235–240 | Save lần cuối, kiểm danh sách ZIP/report, ghi lỗi cần báo coach | Bài sẵn để đưa lên fork |
+|    Phút | Việc chính                                                                        | Bằng chứng giữ lại                                 |
+| ------: | --------------------------------------------------------------------------------- | -------------------------------------------------- |
+|    0–15 | Vào CVAT, đọc quy tắc, tạo Easy với 3 ảnh và đúng 5 class                         | Task đầu mở được; biết Save/export ở đâu           |
+|   15–45 | Easy semantic: tô vùng, kiểm road–sidewalk, Save/export                           | `easy_semantic.zip`                                |
+|  45–110 | Medium instance: tự vẽ object đầu rồi tiếp tục từng vật, kiểm thiếu/thừa/gộp/tách | `medium_instance.zip`; một quyết định trong report |
+| 110–120 | Nghỉ                                                                              | Giữ an toàn các ZIP đã xuất                        |
+| 120–175 | Hard panoptic: stuff + từng thing trên hai ảnh, QC/export                         | `hard_panoptic.zip`                                |
+| 175–185 | Nghỉ; nhận reference ba tier từ phút 180 theo hướng dẫn lớp                       | Không đưa đáp án lên fork                          |
+| 185–215 | Sáu checkpoint; người xong sớm chạy scorer ba tier                                | ZIP trạm đã làm; kết quả tự đánh giá nếu có        |
+| 215–235 | Kiểm file, sửa và export lại nếu cần; điền report                                 | `REPORT.md`: lỗi, hành động, ba ca cân nhắc        |
+| 235–240 | Save lần cuối, kiểm danh sách ZIP/report, ghi lỗi cần báo coach                   | Bài sẵn để đưa lên fork                            |
 
 ## CVAT local: làm từng bước, không cần code
 
@@ -106,7 +106,7 @@ Trên fork của bạn, bật tab **Actions** một lần, upload ZIP CVAT vào 
 python3 scripts/inspect_submissions.py --dir submissions
 ```
 
-Lệnh không cần thư viện ngoài; nó kiểm tên ảnh, class, cấu trúc `Segmentation mask 1.1`/`COCO 1.0` và dạng polygon/RLE. **Nó không đọc reference, không biết số object đúng, không kiểm biên đúng và không tính điểm.** `OK` là cấu trúc phù hợp; `THIẾU` là chưa có ZIP; `LỖI` cần xem và export lại trong CVAT. Số `annotations` ở COCO chỉ là số mask *bạn đã nộp*. Người không có Python cứ tự kiểm bằng CVAT và nộp trực tiếp. Sau giờ phát đáp án, GitHub Actions có thể chạy scorer; [cách chạy script bằng tay](docs/SELF_SCORING.md) vẫn là dự phòng.
+Lệnh không cần thư viện ngoài; nó kiểm tên ảnh, class, cấu trúc `Segmentation mask 1.1`/`COCO 1.0` và dạng polygon/RLE. **Nó không đọc reference, không biết số object đúng, không kiểm biên đúng và không tính điểm.** `OK` là cấu trúc phù hợp; `THIẾU` là chưa có ZIP; `LỖI` cần xem và export lại trong CVAT. Số `annotations` ở COCO chỉ là số mask _bạn đã nộp_. Người không có Python cứ tự kiểm bằng CVAT và nộp trực tiếp. Sau giờ phát đáp án, GitHub Actions có thể chạy scorer; [cách chạy script bằng tay](docs/SELF_SCORING.md) vẫn là dự phòng.
 
 ## Fork → làm bài → push → nộp link trong vòng 24 giờ
 
@@ -130,13 +130,13 @@ Các lệnh chấm cần reference được giữ riêng và ba thư viện tron
 
 ## Khi bị kẹt, hãy báo đúng vấn đề
 
-| Tình huống | Việc làm ngay |
-| --- | --- |
-| Không vào được CVAT local | Giữ ảnh màn hình lỗi, thời điểm và địa chỉ đã thử; báo coach. |
-| Không thấy SAM | Tiếp tục Brush/Polygon; không chờ cài tool. |
-| Không biết chọn class/ranh | Mở `classes.json` và [phiếu quy tắc](guideline-mini-sheet.md); ghi ảnh/vị trí cùng hai cách hiểu vào report. |
-| Hai vật sát nhau hoặc một vật bị che | Xem quy tắc instance/checkpoint, đếm object trong CVAT trước khi Save. |
-| Export sai format hoặc thiếu ảnh | Save dữ liệu CVAT, export lại đúng task; nếu format không có, báo coach, không sửa ZIP bằng tay. |
-| Không có Python/Jupyter | Vẫn làm toàn bộ trên CVAT, nén thủ công và nộp report. |
+| Tình huống                           | Việc làm ngay                                                                                                |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| Không vào được CVAT local            | Giữ ảnh màn hình lỗi, thời điểm và địa chỉ đã thử; báo coach.                                                |
+| Không thấy SAM                       | Tiếp tục Brush/Polygon; không chờ cài tool.                                                                  |
+| Không biết chọn class/ranh           | Mở `classes.json` và [phiếu quy tắc](guideline-mini-sheet.md); ghi ảnh/vị trí cùng hai cách hiểu vào report. |
+| Hai vật sát nhau hoặc một vật bị che | Xem quy tắc instance/checkpoint, đếm object trong CVAT trước khi Save.                                       |
+| Export sai format hoặc thiếu ảnh     | Save dữ liệu CVAT, export lại đúng task; nếu format không có, báo coach, không sửa ZIP bằng tay.             |
+| Không có Python/Jupyter              | Vẫn làm toàn bộ trên CVAT, nén thủ công và nộp report.                                                       |
 
 **Nguồn bài:** ảnh, taxonomy và trọng số từ starter Day 5 commit `3bff13d`; xem [ghi chú dữ liệu](data/README.md) cho nguồn ảnh và giới hạn sử dụng. Khả năng có SAM và export của cấu hình CVAT lớp cần được kiểm tại môi trường lớp. Tự kiểm ZIP không thay lần chấm có reference của coach.
